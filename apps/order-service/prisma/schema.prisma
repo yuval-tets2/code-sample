@@ -1,5 +1,5 @@
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DB_URL")
 }
 
@@ -10,7 +10,7 @@ generator client {
 model User {
   createdAt DateTime @default(now())
   firstName String?
-  id        String   @id @default(cuid())
+  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
   lastName  String?
   password  String
   roles     Json
@@ -23,7 +23,7 @@ model Order {
   customer   Customer? @relation(fields: [customerId], references: [id])
   customerId String?
   discount   Float?
-  id         String    @id @default(cuid())
+  id         String    @id @default(auto()) @map("_id") @mongo.ObjectId
   product    Product?  @relation(fields: [productId], references: [id])
   productId  String?
   quantity   Int?
@@ -37,7 +37,7 @@ model Customer {
   createdAt DateTime @default(now())
   email     String?
   firstName String?
-  id        String   @id @default(cuid())
+  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
   lastName  String?
   orders    Order[]
   phone     String?
@@ -50,7 +50,7 @@ model Address {
   city      String?
   createdAt DateTime   @default(now())
   customers Customer[]
-  id        String     @id @default(cuid())
+  id        String     @id @default(auto()) @map("_id") @mongo.ObjectId
   state     String?
   updatedAt DateTime   @updatedAt
   zip       Int?
@@ -59,7 +59,7 @@ model Address {
 model Product {
   createdAt   DateTime @default(now())
   description String?
-  id          String   @id @default(cuid())
+  id          String   @id @default(auto()) @map("_id") @mongo.ObjectId
   itemPrice   Float?
   name        String?
   orders      Order[]
